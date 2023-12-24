@@ -19,11 +19,10 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager> {
         if(isInitialized) return;
         isInitialized = true;
 
-        object[] bgmData = Resources.LoadAll ("Audio/Exclude/BGM");
-        object[] seData = Resources.LoadAll ("Audio/Exclude/SE");
+        object[] bgmData = Resources.LoadAll ("Audio/BGM");
+        object[] seData = Resources.LoadAll ("Audio/SE");
 
         foreach (AudioClip bgm in bgmData) {
-            Debug.Log(bgm);
             _bgmSourceDic[bgm.name] = gameObject.AddComponent<AudioSource> ();
             _bgmSourceDic[bgm.name].clip = bgm;
             _bgmSourceDic[bgm.name].volume = GetMasterVolume ();

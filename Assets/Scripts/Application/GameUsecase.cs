@@ -52,6 +52,7 @@ public class GameUsecase : IDisposable
         }).AddTo(_disposable);
 
         AudioManager.Instance.Initialize();
+        AudioManager.Instance.PlayBGM("Title");
     }
 
     ~GameUsecase()
