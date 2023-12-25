@@ -27,7 +27,7 @@ public class TitlePresenter : IDisposable
     {
         _titleView.SetActive(true);
 
-        await UniTask.WaitUntil(()=>InputEventProvider.Instance.GetKeyDownSpaceObservable!=null);
+        await UniTask.WaitUntil(()=>InputEventProvider.Instance.GetKeyDownSpaceObservable!=null); // TODO Cancellation token
         InputEventProvider.Instance.GetKeyDownSpaceObservable.Where(item=>item).Subscribe(_=>{
             _onTransitionGame.Invoke();
             _titleView.SetActive(false);
