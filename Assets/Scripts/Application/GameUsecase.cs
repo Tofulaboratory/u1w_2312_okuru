@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -67,7 +68,7 @@ public class GameUsecase : IDisposable
             _titleView,
             () => ChangeOutgameState(OutgameState.INGAME)
         );
-        titlePresenter.Initialize();
+        titlePresenter.InitializeAsync().Forget();
     }
 
     private void InitializeIngame()
