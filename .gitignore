@@ -75,4 +75,3 @@ crashlytics-build.properties
 */Excludes/*
 Excludes.meta
 .DS_Store
-.gitignore
