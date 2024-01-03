@@ -8,7 +8,8 @@ using UnityEngine;
 public interface IIngameView
 {
     public IObservable<float> OnDecideParameter();
-    public UniTask StopChoiseBar(BarType type, CancellationToken ct);
+    public IObserver<bool> TriggerDecideParameter();
+    public void Initialize();
     public void StartChoiseBar(BarType type);
     public void SetActive(bool isActivate);
 }

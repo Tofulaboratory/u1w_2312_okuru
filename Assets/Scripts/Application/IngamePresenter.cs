@@ -60,6 +60,16 @@ public class IngamePresenter : IDisposable
     public void Initialize()
     {
         _ingameView.SetActive(true);
+        _ingameView.Initialize();
+        _ingameView.StartChoiseBar(BarType.Vertical);
+        _ingameView.OnDecideParameter().Subscribe(value => { 
+            Debug.Log(value);
+        }).AddTo(_disposable);
+
+        InputEventProvider.Instance.GetKeyDownSpaceObservable.Subscribe(_ =>
+        {
+            _ingameView.TriggerDecideParameter().OnNext(true);
+        }).AddTo(_disposable);
     }
 
     public void Dispose()

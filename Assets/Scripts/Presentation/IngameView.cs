@@ -7,35 +7,52 @@ using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class IngameView : ViewBase, IIngameView
 {
     [SerializeField] private Scrollbar choiseBarV;
     [SerializeField] private Scrollbar choiseBarH;
 
+    private readonly float CHOISE_BAR_LOOP_DURATION = 1;
+
     private Subject<float> _onDecideParameter = new();
     public IObservable<float> OnDecideParameter() => _onDecideParameter;
 
+    private Subject<bool> _triggerDecideParameter = new();
+    public IObserver<bool> TriggerDecideParameter() => _triggerDecideParameter;
+
+    private Scrollbar _currentActiveScrollbar = null;
+
     private CancellationTokenSource _moveChoiseBarCts = new();
 
-    public async UniTask StopChoiseBar(BarType type, CancellationToken ct)
+    public void Initialize()
     {
-        _moveChoiseBarCts?.Cancel();
+        _triggerDecideParameter.Where(v => v).Subscribe(_ =>
+        {
+            var bar = _currentActiveScrollbar;
+            if (bar == null) return;
 
-        //TODO
-        await UniTask.Delay(100000, cancellationToken: ct);
-
-        SetActiveChoiseBar(type, false);
+            _onDecideParameter.OnNext(bar.value);
+            StopChoiseBar();
+        }).AddTo(this);
     }
 
     public void StartChoiseBar(BarType type)
     {
         SetActiveChoiseBar(type, true);
 
-        if (!_moveChoiseBarCts.IsCancellationRequested) return;
+        //if (!_moveChoiseBarCts.IsCancellationRequested) return;
         _moveChoiseBarCts = new CancellationTokenSource();
 
         MoveChoiseBar(type, _moveChoiseBarCts.Token).Forget();
+    }
+
+    private void StopChoiseBar()
+    {
+        _moveChoiseBarCts?.Cancel();
+        SetActiveChoiseBar(BarType.Vertical, false);
+        SetActiveChoiseBar(BarType.Horizontal, false);
     }
 
     private void SetActiveChoiseBar(BarType type, bool isActivate)
@@ -43,6 +60,14 @@ public class IngameView : ViewBase, IIngameView
         var bar = GetChoiseBar(type);
         if (bar == null) return;
         bar.gameObject.SetActive(isActivate);
+        if (isActivate)
+        {
+            _currentActiveScrollbar = bar;
+        }
+        else
+        {
+            _currentActiveScrollbar = null;
+        }
     }
 
     private async UniTask MoveChoiseBar(BarType type, CancellationToken ct)
@@ -50,8 +75,16 @@ public class IngameView : ViewBase, IIngameView
         var bar = GetChoiseBar(type);
         if (bar == null) return;
 
-        //TODO
-        await UniTask.Delay(100000, cancellationToken: ct);
+        var seq = DOTween
+            .Sequence()
+            .PrependCallback(() => bar.value = 0)
+            .Append(
+                DOTween.To(() => bar.value, (value) => bar.value = value, 1, CHOISE_BAR_LOOP_DURATION).SetEase(Ease.InOutSine)
+                )
+            .SetLoops(-1, LoopType.Yoyo)
+            .WithCancellation(ct);
+
+        await seq;
     }
 
     private Scrollbar GetChoiseBar(BarType type)
