@@ -18,6 +18,8 @@ public class GameUsecase : IDisposable
     private readonly IResultView _resultView;
     private readonly GameFactory _gameFactory;
 
+    private GameEntity _gameEntity;
+
     private TitlePresenter titlePresenter;
     private IngamePresenter ingamePresenter;
 
@@ -73,9 +75,12 @@ public class GameUsecase : IDisposable
 
     private void InitializeIngame()
     {
+        _gameEntity = _gameFactory.Create();
+
         ingamePresenter?.Dispose();
         ingamePresenter = new IngamePresenter(
             _ingameView,
+            _gameEntity,
             () => ChangeOutgameState(OutgameState.TITLE)
         );
         ingamePresenter.Initialize();

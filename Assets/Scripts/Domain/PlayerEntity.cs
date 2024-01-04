@@ -32,6 +32,7 @@ public class PlayerEntity
 
     public bool SetParameter(float value)
     {
+        Debug.Log($"{_type}:{value}");
         switch(_type)
         {
             case PlayerParameterType.DIRECTIONX:

@@ -13,13 +13,16 @@ public class IngamePresenter : IDisposable
     private CancellationTokenSource _commonCts = new();
 
     private readonly IIngameView _ingameView;
+    private readonly GameEntity _gameEntity;
 
     public IngamePresenter(
         IIngameView ingameView,
+        GameEntity gameEntity,
         Action onTransitionTitle
         )
     {
         _ingameView = ingameView;
+        _gameEntity = gameEntity;
 
         // gameEntity.CurrentGameState.Subscribe(async state =>
         // {
@@ -62,8 +65,8 @@ public class IngamePresenter : IDisposable
         _ingameView.SetActive(true);
         _ingameView.Initialize();
         _ingameView.StartChoiseBar(BarType.Vertical);
-        _ingameView.OnDecideParameter().Subscribe(value => { 
-            Debug.Log(value);
+        _ingameView.OnDecideParameter().Subscribe(value => {
+            _gameEntity.SetParameter(value);
         }).AddTo(_disposable);
 
         InputEventProvider.Instance.GetKeyDownSpaceObservable.Subscribe(_ =>
