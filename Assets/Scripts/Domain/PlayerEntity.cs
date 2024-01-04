@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerEntity
 {
     private PlayerParameterType _type = PlayerParameterType.DIRECTIONX;
+    public PlayerParameterType Type => _type;
 
     private readonly ReactiveProperty<float> _directionX = new();
     public IReadOnlyReactiveProperty<float> DirectionX => _directionX;

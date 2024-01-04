@@ -19,6 +19,7 @@ public class GameEntity
 
     public bool SetParameter(float value) => _playerEntity.SetParameter(value);
     public Vector3 GetTargetPosition() => _fieldEntity.TargetPosition;
+    public PlayerParameterType GetPlayerParameterType() => _playerEntity.Type;
 
     // public void ExecuteStateEvent(GameState state)
     // {

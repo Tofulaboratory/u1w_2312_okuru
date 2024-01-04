@@ -15,6 +15,7 @@ public class IngameView : ViewBase, IIngameView
     [SerializeField] private Scrollbar choiseBarH;
 
     private readonly float CHOISE_BAR_LOOP_DURATION = 1;
+    private readonly int CHOISE_BAR_CLOSE_DURATION = 500;
 
     private Subject<float> _onDecideParameter = new();
     public IObservable<float> OnDecideParameter() => _onDecideParameter;
@@ -28,23 +29,26 @@ public class IngameView : ViewBase, IIngameView
 
     public void Initialize()
     {
-        _triggerDecideParameter.Where(v => v).Subscribe(_ =>
+        _triggerDecideParameter.Subscribe(async value =>
         {
             var bar = _currentActiveScrollbar;
             if (bar == null) return;
 
             _onDecideParameter.OnNext(bar.value);
             StopChoiseBar();
+
+            if(value)
+            {
+                await UniTask.Delay(CHOISE_BAR_CLOSE_DURATION);
+                StartChoiseBar(BarType.Vertical);
+            }
         }).AddTo(this);
     }
 
     public void StartChoiseBar(BarType type)
     {
         SetActiveChoiseBar(type, true);
-
-        //if (!_moveChoiseBarCts.IsCancellationRequested) return;
         _moveChoiseBarCts = new CancellationTokenSource();
-
         MoveChoiseBar(type, _moveChoiseBarCts.Token).Forget();
     }
 
