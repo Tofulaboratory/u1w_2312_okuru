@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
+using Cinemachine;
 
-public class SantaUnit : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-
-    [SerializeField] private AnimatorController danceAC;
-    [SerializeField] private AnimatorController throwAC;
+    [SerializeField] private CinemachineVirtualCamera cam;
 
     public void Apply(PlayerParameterType type)
     {
@@ -39,15 +36,5 @@ public class SantaUnit : MonoBehaviour
             default:
                 break;
         }
-    }
-
-    public void ApplyThrowAnimation()
-    {
-        animator.runtimeAnimatorController = throwAC;
-    }
-
-    public void ApplyDanceAnimation()
-    {
-        animator.runtimeAnimatorController = danceAC;
     }
 }

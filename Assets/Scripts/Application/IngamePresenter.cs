@@ -71,7 +71,8 @@ public class IngamePresenter : IDisposable
 
         InputEventProvider.Instance.GetKeyDownSpaceObservable.Subscribe(_ =>
         {
-            _ingameView.TriggerDecideParameter().OnNext(_gameEntity.GetPlayerParameterType() != PlayerParameterType.EYEANGLE);
+            var type = _gameEntity.GetPlayerParameterType();
+            _ingameView.TriggerDecideParameter().OnNext(type);
         }).AddTo(_disposable);
     }
 

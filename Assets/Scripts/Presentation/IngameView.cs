@@ -14,14 +14,17 @@ public class IngameView : ViewBase, IIngameView
     [SerializeField] private Scrollbar choiseBarV;
     [SerializeField] private Scrollbar choiseBarH;
 
+    [SerializeField] private SantaUnit santaUnit;
+    [SerializeField] private CameraController cameraController;
+
     private readonly float CHOISE_BAR_LOOP_DURATION = 1;
     private readonly int CHOISE_BAR_CLOSE_DURATION = 500;
 
     private Subject<float> _onDecideParameter = new();
     public IObservable<float> OnDecideParameter() => _onDecideParameter;
 
-    private Subject<bool> _triggerDecideParameter = new();
-    public IObserver<bool> TriggerDecideParameter() => _triggerDecideParameter;
+    private Subject<PlayerParameterType> _triggerDecideParameter = new();
+    public IObserver<PlayerParameterType> TriggerDecideParameter() => _triggerDecideParameter;
 
     private Scrollbar _currentActiveScrollbar = null;
 
@@ -37,9 +40,11 @@ public class IngameView : ViewBase, IIngameView
             _onDecideParameter.OnNext(bar.value);
             StopChoiseBar();
 
-            if(value)
+            if(value != PlayerParameterType.EYEANGLE)
             {
                 await UniTask.Delay(CHOISE_BAR_CLOSE_DURATION);
+                cameraController.Apply(value);
+                santaUnit.Apply(value);
                 StartChoiseBar(BarType.Vertical);
             }
         }).AddTo(this);
