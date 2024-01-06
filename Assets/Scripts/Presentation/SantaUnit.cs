@@ -6,9 +6,11 @@ using UnityEngine;
 public class SantaUnit : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject santaCPath;
 
-    [SerializeField] private AnimatorController danceAC;
-    [SerializeField] private AnimatorController throwAC;
+    private float _resumeAnimationTime = 0;
+    private readonly int _throwAnimationKey = Animator.StringToHash("Throw");
+    private readonly int _danceAnimationKey = Animator.StringToHash("Dance");
 
     public void Apply(PlayerParameterType type)
     {
@@ -16,25 +18,14 @@ public class SantaUnit : MonoBehaviour
         switch (type)
         {
             case PlayerParameterType.BEGIN:
-                ApplyThrowAnimation();
+                ApplyThrowAnimation(0.25f,true);
+                santaCPath.transform.eulerAngles = new Vector3(0,180,0);
                 break;
 
             case PlayerParameterType.DIRECTIONX:
                 break;
 
-            case PlayerParameterType.DIRECTIONY:
-                break;
-
             case PlayerParameterType.POWER:
-                break;
-
-            case PlayerParameterType.NECKANGLE:
-                break;
-
-            case PlayerParameterType.FACEANGLE:
-                break;
-
-            case PlayerParameterType.EYEANGLE:
                 break;
 
             case PlayerParameterType.END:
@@ -45,13 +36,22 @@ public class SantaUnit : MonoBehaviour
         }
     }
 
-    private void ApplyThrowAnimation()
+    private void ApplyThrowAnimation(float time = 0, bool isPause = false)
     {
-        animator.runtimeAnimatorController = throwAC;
+        animator.Play(_throwAnimationKey, 0, time);
+        //animator.enabled = !isPause;
+        animator.speed = isPause ? 0 : 1;
     }
 
-    private void ApplyDanceAnimation()
+    private void ApplyDanceAnimation(float time = 0, bool isPause = false)
     {
-        animator.runtimeAnimatorController = danceAC;
+        animator.Play(_throwAnimationKey, 0, time);
+        animator.speed = isPause ? 0 : 1;
+    }
+
+    private void PauseAnimation()
+    {
+        animator.enabled = false;
+        _resumeAnimationTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
 }

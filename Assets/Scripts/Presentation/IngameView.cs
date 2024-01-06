@@ -43,7 +43,7 @@ public class IngameView : ViewBase, IIngameView
             _onDecideParameter.OnNext(bar.value);
             StopChoiseBar();
 
-            if(value != PlayerParameterType.EYEANGLE)
+            if(value != PlayerParameterType.POWER)
             {
                 await UniTask.Delay(CHOISE_BAR_CLOSE_DURATION);
                 cameraController.Apply(value);

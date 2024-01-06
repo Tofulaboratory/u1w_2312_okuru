@@ -5,7 +5,7 @@ using Cinemachine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera cam;
+    [SerializeField] private CinemachineFollowZoom cfz;
 
     public void Apply(PlayerParameterType type)
     {
@@ -13,24 +13,16 @@ public class CameraController : MonoBehaviour
         switch (type)
         {
             case PlayerParameterType.BEGIN:
+                cfz.m_Width = 5.8f;
+                cfz.m_Damping = 2.37f;
+                transform.position = new Vector3(21.7f, 3.45f, 18f);
                 break;
 
             case PlayerParameterType.DIRECTIONX:
-                break;
 
-            case PlayerParameterType.DIRECTIONY:
                 break;
 
             case PlayerParameterType.POWER:
-                break;
-
-            case PlayerParameterType.NECKANGLE:
-                break;
-
-            case PlayerParameterType.FACEANGLE:
-                break;
-
-            case PlayerParameterType.EYEANGLE:
                 break;
 
             case PlayerParameterType.END:

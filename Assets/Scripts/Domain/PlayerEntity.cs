@@ -40,34 +40,14 @@ public class PlayerEntity
             return false;
 
             case PlayerParameterType.DIRECTIONX:
-            _type = PlayerParameterType.DIRECTIONY;
+            _type = PlayerParameterType.POWER;
             _directionX.Value = value;
             return false;
 
-            case PlayerParameterType.DIRECTIONY:
-            _type = PlayerParameterType.POWER;
-            _directionY.Value = value;
-            return false;
-
             case PlayerParameterType.POWER:
-            _type = PlayerParameterType.NECKANGLE;
+            _type = PlayerParameterType.END;
             _power.Value = value;
             return false;
-
-            case PlayerParameterType.NECKANGLE:
-            _type = PlayerParameterType.FACEANGLE;
-            _neckAngle.Value = value;
-            return false;
-
-            case PlayerParameterType.FACEANGLE:
-            _type = PlayerParameterType.EYEANGLE;
-            _faceAngle.Value = value;
-            return false;
-
-            case PlayerParameterType.EYEANGLE:
-            _type = PlayerParameterType.END;
-            _eyeAngle.Value = value;
-            return true;
 
             case PlayerParameterType.END:
             return true;
