@@ -12,6 +12,9 @@ public class CameraController : MonoBehaviour
         Debug.Log(type);
         switch (type)
         {
+            case PlayerParameterType.BEGIN:
+                break;
+
             case PlayerParameterType.DIRECTIONX:
                 break;
 

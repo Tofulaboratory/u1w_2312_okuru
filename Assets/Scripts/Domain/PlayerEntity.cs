@@ -36,6 +36,9 @@ public class PlayerEntity
         Debug.Log($"{_type}:{value}");
         switch(_type)
         {
+            case PlayerParameterType.BEGIN:
+            return false;
+
             case PlayerParameterType.DIRECTIONX:
             _type = PlayerParameterType.DIRECTIONY;
             _directionX.Value = value;

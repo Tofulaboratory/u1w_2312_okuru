@@ -1,5 +1,6 @@
 public enum PlayerParameterType
 {
+    BEGIN,
     DIRECTIONX,
     DIRECTIONY,
     POWER,

@@ -15,6 +15,10 @@ public class SantaUnit : MonoBehaviour
         Debug.Log(type);
         switch (type)
         {
+            case PlayerParameterType.BEGIN:
+                ApplyThrowAnimation();
+                break;
+
             case PlayerParameterType.DIRECTIONX:
                 break;
 
@@ -41,12 +45,12 @@ public class SantaUnit : MonoBehaviour
         }
     }
 
-    public void ApplyThrowAnimation()
+    private void ApplyThrowAnimation()
     {
         animator.runtimeAnimatorController = throwAC;
     }
 
-    public void ApplyDanceAnimation()
+    private void ApplyDanceAnimation()
     {
         animator.runtimeAnimatorController = danceAC;
     }

@@ -32,6 +32,9 @@ public class IngameView : ViewBase, IIngameView
 
     public void Initialize()
     {
+        cameraController.Apply(PlayerParameterType.BEGIN);
+        santaUnit.Apply(PlayerParameterType.BEGIN);
+
         _triggerDecideParameter.Subscribe(async value =>
         {
             var bar = _currentActiveScrollbar;
