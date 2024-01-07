@@ -1,10 +1,15 @@
 {
-    "name": "Domain",
+    "name": "Application",
     "rootNamespace": "",
     "references": [
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:44769a926d225074ca97dac889c1d52b",
+        "GUID:d34539526ebb59a449e7a798711bb900",
+        "GUID:3940b98d789bad2478ff7222185c974a",
+        "GUID:b4cfbf17038e9514aa2e13e204ccc0ae",
         "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
-        "GUID:44769a926d225074ca97dac889c1d52b"
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:ace1a962d6cb545a78234415708dae81"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
