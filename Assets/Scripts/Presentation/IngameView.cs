@@ -15,6 +15,9 @@ public class IngameView : ViewBase, IIngameView
     [SerializeField] private CameraController cameraController;
     [SerializeField] private PresentUnit presentUnit;
     [SerializeField] private EarthUnit earthUnit;
+    [SerializeField] private TMP_Text desText;
+    [SerializeField] private TMP_Text cntText;
+    [SerializeField] private TMP_Text timerText;
 
     private Subject<bool> _onThrow = new();
     public IObserver<bool> OnThrow() => _onThrow;
@@ -35,8 +38,9 @@ public class IngameView : ViewBase, IIngameView
             cameraController.SetLookAt(presentUnit.transform);
             cameraController.SetWidth(500);
 
-            await UniTask.Delay(1000*duration);
+            await UniTask.Delay(1000 * duration);
             earthUnit.Explode();
+            AudioManager.Instance.PlaySE("Exp");
         }).AddTo(this);
     }
 
@@ -48,6 +52,15 @@ public class IngameView : ViewBase, IIngameView
     //         )
     //     .SetLoops(-1, LoopType.Yoyo)
     //     .WithCancellation(ct);
+
+    public void ApplyCount(int value) => cntText.text = $"パワー\n{value}";
+    public void ApplyTime(int value) => timerText.text = $"{value}";
+    public void SetActiveText(bool isActivate)
+    {
+        cntText.gameObject.SetActive(isActivate);
+        timerText.gameObject.SetActive(isActivate);
+        desText.gameObject.SetActive(isActivate);
+    }
 
     public void SetActive(bool isActivate)
     {

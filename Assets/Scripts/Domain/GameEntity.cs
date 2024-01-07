@@ -17,6 +17,11 @@ public class GameEntity
         _playerEntity = playerEntity;
     }
 
+    private ReactiveProperty<int> _cnt = new();
+    public IReadOnlyReactiveProperty<int> Cnt => _cnt;
+
+    public void AddCnt()=>_cnt.Value++;
+
     public bool SetParameter(float value) => _playerEntity.SetParameter(value);
     public Vector3 GetTargetPosition() => _fieldEntity.TargetPosition;
     public PlayerParameterType GetPlayerParameterType() => _playerEntity.Type;

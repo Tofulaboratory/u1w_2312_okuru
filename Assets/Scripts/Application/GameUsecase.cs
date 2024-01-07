@@ -61,7 +61,7 @@ public class GameUsecase : IDisposable
         }).AddTo(_disposable);
 
         AudioManager.Instance.Initialize();
-        AudioManager.Instance.PlayBGM("Title");
+        AudioManager.Instance.PlayBGM("Title",volume:0.8f);
     }
 
     ~GameUsecase()
@@ -82,6 +82,8 @@ public class GameUsecase : IDisposable
     private void InitializeIngame()
     {
         _gameEntity = _gameFactory.Create();
+        AudioManager.Instance.StopBGM("Title");
+        AudioManager.Instance.PlayBGM("Ingame",volume:0.2f);
 
         ingamePresenter?.Dispose();
         ingamePresenter = new IngamePresenter(
@@ -94,9 +96,12 @@ public class GameUsecase : IDisposable
 
     private void InitializeResult()
     {
+        AudioManager.Instance.StopBGM("Ingame");
+        AudioManager.Instance.PlayBGM("Result",volume:0.2f);
         resultPresenter?.Dispose();
         resultPresenter = new ResultPresenter(
             _resultView,
+            _gameEntity,
             () => SceneManager.LoadScene("Core")
         );
         resultPresenter.InitializeAsync().Forget();
