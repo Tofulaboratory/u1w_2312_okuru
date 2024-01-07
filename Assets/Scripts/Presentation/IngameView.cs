@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening;
 
 public class IngameView : ViewBase, IIngameView

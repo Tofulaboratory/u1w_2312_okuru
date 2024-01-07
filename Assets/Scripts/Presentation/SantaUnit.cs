@@ -7,7 +7,6 @@ public class SantaUnit : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject santaCPath;
 
-    private float _resumeAnimationTime = 0;
     private readonly int _throwAnimationKey = Animator.StringToHash("Throw");
     private readonly int _danceAnimationKey = Animator.StringToHash("Dance");
 
@@ -27,11 +26,5 @@ public class SantaUnit : MonoBehaviour
     {
         animator.Play(_throwAnimationKey, 0, time);
         animator.speed = isPause ? 0 : 1;
-    }
-
-    private void PauseAnimation()
-    {
-        animator.enabled = false;
-        _resumeAnimationTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
 }

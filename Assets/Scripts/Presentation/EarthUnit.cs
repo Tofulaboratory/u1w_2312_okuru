@@ -8,7 +8,7 @@ public class EarthUnit : MonoBehaviour
     [SerializeField] private GameObject explosionEffect;
 
     private float _rot = 0;
-    private readonly float SPEED = 0.01f;
+    private readonly float SPEED = 1f;
 
     public void Explode()
     {
@@ -22,6 +22,6 @@ public class EarthUnit : MonoBehaviour
     void FixedUpdate()
     {
         _rot += Time.fixedDeltaTime*SPEED;
-        transform.eulerAngles += new Vector3(0,_rot,0);
+        transform.eulerAngles = new Vector3(0,_rot,0);
     }
 }
