@@ -13,13 +13,9 @@ public class CameraController : MonoBehaviour
         switch (type)
         {
             case PlayerParameterType.BEGIN:
-                cfz.m_Width = 5.8f;
+                cfz.m_Width = 0f;
                 cfz.m_Damping = 2.37f;
-                transform.position = new Vector3(21.7f, 3.45f, 18f);
-                break;
-
-            case PlayerParameterType.DIRECTIONX:
-
+                transform.position = new Vector3(28.41f, 2f, -19.2f);
                 break;
 
             case PlayerParameterType.POWER:

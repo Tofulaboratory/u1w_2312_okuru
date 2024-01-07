@@ -18,11 +18,8 @@ public class SantaUnit : MonoBehaviour
         switch (type)
         {
             case PlayerParameterType.BEGIN:
-                ApplyThrowAnimation(0.25f,true);
+                ApplyThrowAnimation(0f,false);
                 santaCPath.transform.eulerAngles = new Vector3(0,180,0);
-                break;
-
-            case PlayerParameterType.DIRECTIONX:
                 break;
 
             case PlayerParameterType.POWER:
