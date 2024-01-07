@@ -64,15 +64,10 @@ public class IngamePresenter : IDisposable
     {
         _ingameView.SetActive(true);
         _ingameView.Initialize();
-        _ingameView.StartChoiseBar(BarType.Vertical);
-        _ingameView.OnDecideParameter().Subscribe(value => {
-            _gameEntity.SetParameter(value);
-        }).AddTo(_disposable);
 
         InputEventProvider.Instance.GetKeyDownSpaceObservable.Subscribe(_ =>
         {
-            var type = _gameEntity.GetPlayerParameterType();
-            _ingameView.TriggerDecideParameter().OnNext(type);
+            _ingameView.OnThrow().OnNext(true);
         }).AddTo(_disposable);
     }
 

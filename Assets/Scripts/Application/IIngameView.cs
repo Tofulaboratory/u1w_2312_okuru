@@ -7,9 +7,7 @@ using UnityEngine;
 
 public interface IIngameView
 {
-    public IObservable<float> OnDecideParameter();
-    public IObserver<PlayerParameterType> TriggerDecideParameter();
+    public IObserver<bool> OnThrow();
     public void Initialize();
-    public void StartChoiseBar(BarType type);
     public void SetActive(bool isActivate);
 }

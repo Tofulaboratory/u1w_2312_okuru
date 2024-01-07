@@ -12,31 +12,15 @@ public class SantaUnit : MonoBehaviour
     private readonly int _throwAnimationKey = Animator.StringToHash("Throw");
     private readonly int _danceAnimationKey = Animator.StringToHash("Dance");
 
-    public void Apply(PlayerParameterType type)
+    public void Apply()
     {
-        Debug.Log(type);
-        switch (type)
-        {
-            case PlayerParameterType.BEGIN:
-                ApplyThrowAnimation(0f,false);
-                santaCPath.transform.eulerAngles = new Vector3(0,180,0);
-                break;
-
-            case PlayerParameterType.POWER:
-                break;
-
-            case PlayerParameterType.END:
-                break;
-
-            default:
-                break;
-        }
+        ApplyThrowAnimation(0f,false);
+        santaCPath.transform.eulerAngles = new Vector3(0,180,0);
     }
 
     private void ApplyThrowAnimation(float time = 0, bool isPause = false)
     {
         animator.Play(_throwAnimationKey, 0, time);
-        //animator.enabled = !isPause;
         animator.speed = isPause ? 0 : 1;
     }
 
