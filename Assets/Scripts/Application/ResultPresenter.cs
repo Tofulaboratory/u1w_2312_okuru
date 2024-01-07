@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
-using VContainer;
+using unityroom.Api;
 
 public class ResultPresenter : IDisposable
 {
@@ -30,6 +30,7 @@ public class ResultPresenter : IDisposable
     {
         _resultView.SetActive(true);
         _resultView.ApplyCount(_gameEntity.Cnt.Value);
+        UnityroomApiClient.Instance.SendScore(1, _gameEntity.Cnt.Value, ScoreboardWriteMode.HighScoreDesc);
 
         await UniTask.Delay(3000);
         await UniTask.WaitUntil(()=>InputEventProvider.Instance.GetKeyDownSpaceObservable!=null); // TODO Cancellation token
