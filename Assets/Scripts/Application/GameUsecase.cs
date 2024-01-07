@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
@@ -61,7 +59,7 @@ public class GameUsecase : IDisposable
         }).AddTo(_disposable);
 
         AudioManager.Instance.Initialize();
-        AudioManager.Instance.PlayBGM("Title",volume:0.8f);
+        AudioManager.Instance.PlayBGM("Title", volume: 0.8f);
     }
 
     ~GameUsecase()
@@ -74,7 +72,10 @@ public class GameUsecase : IDisposable
         titlePresenter?.Dispose();
         titlePresenter = new TitlePresenter(
             _titleView,
-            () => ChangeOutgameState(OutgameState.INGAME)
+            () => {
+                titlePresenter?.Dispose();
+                ChangeOutgameState(OutgameState.INGAME);
+            }
         );
         titlePresenter.InitializeAsync().Forget();
     }
@@ -83,21 +84,25 @@ public class GameUsecase : IDisposable
     {
         _gameEntity = _gameFactory.Create();
         AudioManager.Instance.StopBGM("Title");
-        AudioManager.Instance.PlayBGM("Ingame",volume:0.2f);
+        AudioManager.Instance.PlayBGM("Ingame", volume: 0.2f);
 
         ingamePresenter?.Dispose();
         ingamePresenter = new IngamePresenter(
             _ingameView,
             _gameEntity,
-            () => ChangeOutgameState(OutgameState.RESULT)
+            () =>
+            {
+                ingamePresenter?.Dispose();
+                ChangeOutgameState(OutgameState.RESULT);
+            }
         );
-        ingamePresenter.Initialize();
+        ingamePresenter.InitializeAsync().Forget();
     }
 
     private void InitializeResult()
     {
         AudioManager.Instance.StopBGM("Ingame");
-        AudioManager.Instance.PlayBGM("Result",volume:0.2f);
+        AudioManager.Instance.PlayBGM("Result", volume: 0.2f);
         resultPresenter?.Dispose();
         resultPresenter = new ResultPresenter(
             _resultView,

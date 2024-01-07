@@ -29,7 +29,7 @@ public class IngamePresenter : IDisposable
         _onTransition = onTransition;
     }
 
-    public async void Initialize()
+    public async UniTask InitializeAsync()
     {
         _ingameView.SetActive(true);
         _ingameView.Initialize();
