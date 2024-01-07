@@ -11,6 +11,7 @@ public class IngamePresenter : IDisposable
 {
     private readonly CompositeDisposable _disposable = new();
     private CancellationTokenSource _commonCts = new();
+    private readonly Action _onTransition;
 
     private readonly IIngameView _ingameView;
     private readonly GameEntity _gameEntity;
@@ -18,46 +19,12 @@ public class IngamePresenter : IDisposable
     public IngamePresenter(
         IIngameView ingameView,
         GameEntity gameEntity,
-        Action onTransitionTitle
+        Action onTransition
         )
     {
         _ingameView = ingameView;
         _gameEntity = gameEntity;
-
-        // gameEntity.CurrentGameState.Subscribe(async state =>
-        // {
-        //     switch (state)
-        //     {
-        //         case IngameState.INIT:
-        //             break;
-        //         case IngameState.READY:
-        //             await ExecuteReady(gameEntity, _commonCts);
-        //             break;
-        //         case IngameState.BEGIN:
-        //             await ExecuteBeginAsync(gameEntity, _commonCts);
-        //             break;
-        //         case IngameState.PROGRESS:
-        //             break;
-        //         case IngameState.WAIT_FRUITS:
-        //             ExecuteWaitFruits(gameEntity, _commonCts);
-        //             break;
-        //         case IngameState.JUDGE:
-        //             await ExecuteJudgeAsync(gameEntity, _commonCts);
-        //             break;
-        //         case IngameState.CHANGE_PLAYER:
-        //             await ExecuteChangePlayerAsync(gameEntity, _commonCts);
-        //             break;
-        //         case IngameState.RESULT:
-        //             await ExecuteResultAsync(gameEntity, _commonCts);
-        //             break;
-        //         case IngameState.END:
-        //             await ExecuteEndAsync(gameEntity, _commonCts);
-        //             onTransitionTitle.Invoke();
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // }).AddTo(_disposable);
+        _onTransition = onTransition;
     }
 
     public void Initialize()
@@ -65,9 +32,11 @@ public class IngamePresenter : IDisposable
         _ingameView.SetActive(true);
         _ingameView.Initialize();
 
-        InputEventProvider.Instance.GetKeyDownSpaceObservable.Subscribe(_ =>
+        InputEventProvider.Instance.GetKeyDownSpaceObservable.Subscribe(async _ =>
         {
             _ingameView.OnThrow().OnNext(true);
+            await UniTask.Delay(6000);
+            _onTransition.Invoke();
         }).AddTo(_disposable);
     }
 

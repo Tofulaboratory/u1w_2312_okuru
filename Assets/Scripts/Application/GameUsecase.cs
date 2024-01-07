@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using VContainer;
+using UnityEngine.SceneManagement;
 
 public class GameUsecase : IDisposable
 {
@@ -22,6 +23,7 @@ public class GameUsecase : IDisposable
 
     private TitlePresenter titlePresenter;
     private IngamePresenter ingamePresenter;
+    private ResultPresenter resultPresenter;
 
     [Inject]
     public GameUsecase(
@@ -47,6 +49,10 @@ public class GameUsecase : IDisposable
 
                 case OutgameState.INGAME:
                     InitializeIngame();
+                    break;
+
+                case OutgameState.RESULT:
+                    InitializeResult();
                     break;
 
                 default:
@@ -81,15 +87,26 @@ public class GameUsecase : IDisposable
         ingamePresenter = new IngamePresenter(
             _ingameView,
             _gameEntity,
-            () => ChangeOutgameState(OutgameState.TITLE)
+            () => ChangeOutgameState(OutgameState.RESULT)
         );
         ingamePresenter.Initialize();
+    }
+
+    private void InitializeResult()
+    {
+        resultPresenter?.Dispose();
+        resultPresenter = new ResultPresenter(
+            _resultView,
+            () => SceneManager.LoadScene("Core")
+        );
+        resultPresenter.InitializeAsync().Forget();
     }
 
     public void Dispose()
     {
         titlePresenter?.Dispose();
         ingamePresenter?.Dispose();
+        resultPresenter?.Dispose();
         _disposable?.Dispose();
 
         GC.SuppressFinalize(this);

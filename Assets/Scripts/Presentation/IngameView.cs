@@ -14,6 +14,7 @@ public class IngameView : ViewBase, IIngameView
     [SerializeField] private SantaUnit santaUnit;
     [SerializeField] private CameraController cameraController;
     [SerializeField] private PresentUnit presentUnit;
+    [SerializeField] private EarthUnit earthUnit;
 
     private Subject<bool> _onThrow = new();
     public IObserver<bool> OnThrow() => _onThrow;
@@ -27,11 +28,15 @@ public class IngameView : ViewBase, IIngameView
         cameraController.Apply();
         santaUnit.Apply();
 
-        _onThrow.Subscribe(_ =>
+        _onThrow.Subscribe(async _ =>
         {
-            presentUnit.MoveToGoalAsync().Forget();
+            int duration = 3;
+            presentUnit.MoveToGoalAsync(duration).Forget();
             cameraController.SetLookAt(presentUnit.transform);
             cameraController.SetWidth(500);
+
+            await UniTask.Delay(1000*duration);
+            earthUnit.Explode();
         }).AddTo(this);
     }
 

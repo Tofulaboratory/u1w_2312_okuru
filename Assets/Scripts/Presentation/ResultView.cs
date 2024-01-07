@@ -8,4 +8,8 @@ using UnityEngine.UI;
 
 public class ResultView : ViewBase, IResultView
 {
+    public void SetActive(bool isActivate)
+    {
+        base.SetActiveCanvasGroup(isActivate);
+    }
 }
