@@ -15,8 +15,6 @@ public class CoreLifeTimeScope : LifetimeScope
     protected override void Configure(IContainerBuilder builder)
     {
         builder.Register<GameFactory>(Lifetime.Scoped);
-        builder.Register<FieldFactory>(Lifetime.Scoped);
-        builder.Register<PlayerFactory>(Lifetime.Scoped);
         builder.RegisterEntryPoint<GameInitializer>();
         builder.Register<GameUsecase>(Lifetime.Scoped);
 

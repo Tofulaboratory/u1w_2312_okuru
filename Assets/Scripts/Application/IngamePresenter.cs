@@ -61,6 +61,10 @@ public class IngamePresenter : IDisposable
         for(int i = seconds;i>=1;i--)
         {
             _ingameView.ApplyTime(i);
+            if(i<=3)
+            {
+                AudioManager.Instance.PlaySE("count");
+            }
             await UniTask.Delay(1000);
         }
     }

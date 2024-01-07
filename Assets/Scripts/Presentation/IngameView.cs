@@ -22,9 +22,7 @@ public class IngameView : ViewBase, IIngameView
     private Subject<bool> _onThrow = new();
     public IObserver<bool> OnThrow() => _onThrow;
 
-    private Scrollbar _currentActiveScrollbar = null;
-
-    private CancellationTokenSource _moveChoiseBarCts = new();
+    private float preFontSize = 0;
 
     public void Initialize()
     {
@@ -42,18 +40,26 @@ public class IngameView : ViewBase, IIngameView
             earthUnit.Explode();
             AudioManager.Instance.PlaySE("Exp");
         }).AddTo(this);
+
+        preFontSize = cntText.fontSize;
     }
 
-    // var seq = DOTween
-    //     .Sequence()
-    //     .PrependCallback(() => bar.value = 0)
-    //     .Append(
-    //         DOTween.To(() => bar.value, (value) => bar.value = value, 1, CHOISE_BAR_LOOP_DURATION).SetEase(Ease.InOutSine)
-    //         )
-    //     .SetLoops(-1, LoopType.Yoyo)
-    //     .WithCancellation(ct);
+    private void PopText(TMP_Text text)
+    {
+        var seq = DOTween
+        .Sequence()
+        .PrependCallback(() => text.fontSize = preFontSize * 0.8f)
+        .Append(
+            DOTween.To(() => text.fontSize, (value) => text.fontSize = value, preFontSize, 0.2f).SetEase(Ease.InOutSine)
+            );
+    }
 
-    public void ApplyCount(int value) => cntText.text = $"パワー\n{value}";
+    public void ApplyCount(int value)
+    {
+        cntText.text = $"パワー\n{value}";
+        PopText(cntText);
+    }
+
     public void ApplyTime(int value) => timerText.text = $"{value}";
     public void SetActiveText(bool isActivate)
     {
